@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الرسائل | الإدارة | فيرست إير كوند</title>
+<link rel="icon" href="/images/logo-firstaircond.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-topbar">
+  <div class="container">
+    <a href="/admin/products" class="brand-mark">
+      <img src="/images/logo-firstaircond.jpeg" alt="First Air Cond logo">
+      الإدارة
+    </a>
+    <div class="admin-tabs">
+      <a href="/admin/products">المنتجات</a>
+      <a href="/admin/messages" class="active">الرسائل</a>
+    </div>
+    <div class="admin-user">
+      <span>مسجل كـ <strong style="color:#fff;"><%= username %></strong></span>
+      <form method="POST" action="/admin/logout"><button type="submit" class="link-btn">تسجيل الخروج</button></form>
+    </div>
+  </div>
+</div>
+
+<main class="admin-main">
+  <div class="admin-head">
+    <div>
+      <h1>الرسائل</h1>
+      <p class="sub">يتم إرسالها من نموذج التواصل في الموقع العام.</p>
+    </div>
+  </div>
+
+  <% if (messages.length === 0) { %>
+    <div class="table-card" style="padding: 60px 20px; text-align:center;">
+      <h3>لا توجد رسائل</h3>
+      <p>ستظهر الرسائل المرسلة عبر نموذج التواصل هنا.</p>
+    </div>
+  <% } else { %>
+    <% messages.forEach((m) => { %>
+      <div class="message-card">
+        <div class="meta">
+          <span class="who"><%= m.name %></span>
+          <span class="when"><%= new Date(m.created_at + 'Z').toLocaleString('ar-EG') %></span>
+        </div>
+        <div class="contact-line">
+          <% if (m.phone) { %>الهاتف: <%= m.phone %><% } %>
+          <% if (m.phone && m.email) { %> &middot; <% } %>
+          <% if (m.email) { %>البريد: <%= m.email %><% } %>
+        </div>
+        <p class="body"><%= m.message %></p>
+        <form method="POST" action="/admin/messages/<%= m.id %>/delete" onsubmit="return confirm('حذف هذه الرسالة؟');">
+          <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+        </form>
+      </div>
+    <% }) %>
+  <% } %>
+</main>
+
+</body>
+</html>

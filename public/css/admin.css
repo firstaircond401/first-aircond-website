@@ -1,0 +1,149 @@
+/* Admin panel styles - reuses the tokens from style.css */
+
+body.admin-body {
+  background: #f2f4f8;
+}
+
+/* ---------- Login ---------- */
+
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  padding: 20px;
+}
+.login-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow-lg);
+}
+.login-card .brand-mark { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.login-card .brand-mark img { height: 36px; border-radius: 4px; }
+.login-card h1 { font-size: 1.6rem; margin-bottom: 4px; }
+.login-card .sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+.alert {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  margin-bottom: 18px;
+}
+.alert-error { background: rgba(179,38,30,0.08); color: #b3261e; }
+.alert-ok { background: rgba(47,143,91,0.1); color: var(--success); }
+
+/* ---------- Shell / topbar ---------- */
+
+.admin-topbar {
+  background: var(--navy);
+  color: #fff;
+}
+.admin-topbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.admin-topbar .brand-mark { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 1.3rem; font-weight: 700; }
+.admin-topbar .brand-mark img { height: 32px; border-radius: 4px; }
+.admin-tabs { display: flex; gap: 4px; }
+.admin-tabs a {
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  position: relative;
+}
+.admin-tabs a:hover { color: #fff; }
+.admin-tabs a.active { background: rgba(255,255,255,0.12); color: #fff; }
+.admin-tabs .badge {
+  background: var(--red);
+  color: #fff;
+  font-size: 0.68rem;
+  border-radius: 999px;
+  padding: 1px 6px;
+  margin-left: 6px;
+}
+.admin-user { display: flex; align-items: center; gap: 14px; font-size: 0.88rem; color: rgba(255,255,255,0.75); }
+.admin-user form { display: inline; }
+.link-btn {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.75); font-family: var(--font-body); font-size: 0.88rem;
+  padding: 0;
+}
+.link-btn:hover { color: #fff; text-decoration: underline; }
+
+.admin-main { max-width: 1180px; margin: 0 auto; padding: 32px 24px 80px; }
+
+.admin-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+}
+.admin-head h1 { font-size: 1.8rem; margin: 0; }
+.admin-head p.sub { margin: 4px 0 0; }
+
+/* ---------- Table ---------- */
+
+.table-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+table.admin-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.admin-table th, .admin-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.admin-table th { background: #f7f8fb; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+.admin-table tr:last-child td { border-bottom: none; }
+.row-thumb {
+  width: 52px; height: 52px; border-radius: 6px; object-fit: cover; background: var(--cream);
+}
+.row-thumb-empty {
+  width: 52px; height: 52px; border-radius: 6px; background: var(--cream);
+  display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--text-muted);
+}
+.row-actions { display: flex; gap: 8px; }
+
+/* ---------- Form ---------- */
+
+.admin-form-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  max-width: 640px;
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form-grid .full { grid-column: 1 / -1; }
+.checkbox-row { display: flex; align-items: center; gap: 8px; }
+.checkbox-row input { width: auto; }
+.current-image { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.current-image img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+.help-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+.form-actions { display: flex; gap: 12px; margin-top: 8px; }
+
+@media (max-width: 620px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Messages inbox ---------- */
+
+.message-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 20px; margin-bottom: 14px;
+}
+.message-card .meta { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
+.message-card .who { font-weight: 700; }
+.message-card .when { font-size: 0.8rem; color: var(--text-muted); }
+.message-card .contact-line { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+.message-card .body { font-size: 0.92rem; }

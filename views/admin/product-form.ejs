@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= product ? 'تعديل المنتج' : 'إضافة منتج' %> | الإدارة | فيرست إير كوند</title>
+<link rel="icon" href="/images/logo-firstaircond.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-topbar">
+  <div class="container">
+    <a href="/admin/products" class="brand-mark">
+      <img src="/images/logo-firstaircond.jpeg" alt="First Air Cond logo">
+      الإدارة
+    </a>
+    <div class="admin-tabs">
+      <a href="/admin/products" class="active">المنتجات</a>
+      <a href="/admin/messages">الرسائل</a>
+    </div>
+    <div class="admin-user">
+      <span>مسجل كـ <strong style="color:#fff;"><%= username %></strong></span>
+      <form method="POST" action="/admin/logout"><button type="submit" class="link-btn">تسجيل الخروج</button></form>
+    </div>
+  </div>
+</div>
+
+<main class="admin-main">
+  <div class="admin-head">
+    <div>
+      <h1><%= product && product.id ? 'تعديل المنتج' : 'إضافة منتج' %></h1>
+      <p class="sub">الحقول المعلمة بـ * مطلوبة.</p>
+    </div>
+    <a href="/admin/products" class="btn btn-ghost">&larr; العودة إلى المنتجات</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+
+  <div class="admin-form-card">
+    <form method="POST" action="<%= product && product.id ? '/admin/products/' + product.id + '/edit' : '/admin/products/new' %>" enctype="multipart/form-data">
+      <div class="form-grid">
+        <div class="field full">
+          <label for="name">اسم المنتج *</label>
+          <input type="text" id="name" name="name" required value="<%= product ? product.name : '' %>" placeholder="مثل: مكييف كاريير 1.5 طن سبليت">
+        </div>
+
+        <div class="field">
+          <label for="brand">العلامة</label>
+          <input type="text" id="brand" name="brand" value="<%= product ? (product.brand || '') : '' %>" placeholder="Carrier, Midea…">
+        </div>
+
+        <div class="field">
+          <label for="category">التصنيف</label>
+          <input type="text" id="category" name="category" value="<%= product ? (product.category || 'Air Conditioners') : 'Air Conditioners' %>" placeholder="مكيفات، قطع غيار…">
+        </div>
+
+        <div class="field">
+          <label for="price">السعر (جنيه مصري) *</label>
+          <input type="number" id="price" name="price" min="0" step="1" required value="<%= product ? product.price : '' %>">
+        </div>
+
+        <div class="field">
+          <label for="in_stock">التوفر</label>
+          <div class="checkbox-row" style="margin-top: 12px;">
+            <input type="checkbox" id="in_stock" name="in_stock" <%= (!product || product.in_stock) ? 'checked' : '' %>>
+            <label for="in_stock" style="margin:0; font-weight:500;">متوفر</label>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label for="description">الوصف</label>
+          <textarea id="description" name="description" placeholder="السعة، الكفاءة، ما الذي يتضمنه المنتج، وكل ما يهم العميل…"><%= product ? (product.description || '') : '' %></textarea>
+        </div>
+
+        <div class="field full">
+          <label for="image">صورة المنتج</label>
+          <% if (product && product.image) { %>
+            <div class="current-image">
+              <img src="<%= product.image %>" alt="">
+              <div>
+                <div class="checkbox-row">
+                  <input type="checkbox" id="remove_image" name="remove_image">
+                  <label for="remove_image" style="margin:0; font-weight:500;">إزالة الصورة الحالية</label>
+                </div>
+              </div>
+            </div>
+          <% } %>
+          <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/webp">
+          <p class="help-text"> JPG أو PNG أو WEBP حتى 5MB. تحميل صورة جديدة يحل محل الحالية.</p>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><%= product && product.id ? 'حفظ التغييرات' : 'إضافة منتج' %></button>
+        <a href="/admin/products" class="btn btn-ghost">إلغاء</a>
+      </div>
+    </form>
+  </div>
+</main>
+
+</body>
+</html>

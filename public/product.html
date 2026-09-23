@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المنتج | فيرست إير كوند</title>
+<link rel="icon" href="./images/logo-firstaircond.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand">
+      <img src="./images/logo-firstaircond.jpeg" alt="شعار فيرست إير كوند">
+      <span>First Air Cond<span class="tagline">للتكييف والتجارة</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/">الرئيسية</a>
+      <a href="/products" class="active">المنتجات</a>
+      <a href="/about">من نحن</a>
+      <a href="/contact">تواصل معنا</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="/contact" class="btn btn-primary btn-sm">احصل على عرض سعر</a>
+      <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <a href="/products" style="display:inline-flex; align-items:center; gap:6px; font-size:0.9rem; font-weight:600; color: var(--text-muted); margin-bottom: 28px;">&larr; العودة إلى المنتجات</a>
+    <div id="productDetail">
+      <p>جاري التحميل…</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>فيرست إير كوند</h4>
+        <p style="color: rgba(255,255,255,0.55); max-width: 34ch;">بيع وتركيب وصيانة مكيفات الهواء، عائلة محلية ومنظمة بشكل احترافي.</p>
+      </div>
+      <div>
+        <h4>الموقع</h4>
+        <a href="/">الرئيسية</a>
+        <a href="/products">المنتجات</a>
+        <a href="/about">من نحن</a>
+        <a href="/contact">تواصل معنا</a>
+      </div>
+      <div>
+        <h4>التواصل</h4>
+        <a href="tel:+201000000000">+20 100 000 0000</a>
+        <a href="mailto:info@firstaircond.com">info@firstaircond.com</a>
+        <a href="/admin/login">تسجيل الدخول للإدارة</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> فيرست إير كوند. جميع الحقوق محفوظة.</span>
+      <span>شعارات كاريير وميديا تعود لمالكيها.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script src="/js/products.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  loadProductDetail();
+</script>
+</body>
+</html>

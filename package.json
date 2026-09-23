@@ -1,0 +1,24 @@
+{
+  "name": "first-aircond-website",
+  "version": "1.0.0",
+  "description": "First Air Cond - public website and admin panel for managing products",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "setup": "node scripts/create-admin.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0",
+    "multer": "^2.0.1",
+    "mongodb": "^6.18.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
