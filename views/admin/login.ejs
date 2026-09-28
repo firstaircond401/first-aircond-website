@@ -9,6 +9,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/admin.css">
+<style>
+  .password-input-wrap { position: relative; }
+  .password-input-wrap input { padding-inline-end: 68px; }
+  .password-toggle {
+    position: absolute;
+    inset-inline-end: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--navy);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 6px;
+  }
+  .password-toggle:focus-visible { outline: 2px solid var(--red); outline-offset: 1px; border-radius: 4px; }
+</style>
 </head>
 <body class="admin-body">
   <div class="login-wrap">
@@ -30,11 +49,27 @@
         </div>
         <div class="field">
           <label for="password">كلمة المرور</label>
-          <input type="password" id="password" name="password" required>
+          <div class="password-input-wrap">
+            <input type="password" id="password" name="password" required>
+            <button type="button" class="password-toggle" id="password-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+          </div>
         </div>
         <button type="submit" class="btn btn-navy btn-block">تسجيل الدخول</button>
       </form>
     </div>
   </div>
+  <script>
+    const passwordInput = document.getElementById('password');
+    const passwordToggle = document.getElementById('password-toggle');
+
+    passwordToggle.addEventListener('click', () => {
+      const isVisible = passwordInput.type === 'text';
+      passwordInput.type = isVisible ? 'password' : 'text';
+      passwordToggle.textContent = isVisible ? 'Show' : 'Hide';
+      passwordToggle.setAttribute('aria-label', isVisible ? 'Show password' : 'Hide password');
+      passwordToggle.setAttribute('aria-pressed', String(!isVisible));
+      passwordInput.focus();
+    });
+  </script>
 </body>
 </html>
