@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأقسام | الإدارة</title>
+<link rel="icon" href="/images/logo-firstaircond.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+<% const byId = Object.fromEntries(categories.map(c => [c.id, c]));
+   const depthOf = (category) => { let depth = 0, current = category, guard = 0; while (current && current.parentId && guard++ < 10) { depth++; current = byId[current.parentId]; } return depth; };
+   const levelName = (depth) => depth === 0 ? 'شركة' : (depth === 1 ? 'نوع التكييف' : 'الحجم');
+   const categoryPath = (category) => { const parts = [category.name]; let current = category, guard = 0; while (current.parentId && byId[current.parentId] && guard++ < 10) { current = byId[current.parentId]; parts.unshift(current.name); } return parts.join(' ← '); }; %>
+<div class="admin-topbar"><div class="container">
+  <a href="/admin/products" class="brand-mark"><img src="/images/logo-firstaircond.jpeg" alt="">الإدارة</a>
+  <div class="admin-tabs"><a href="/admin/products">المنتجات</a><a href="/admin/categories" class="active">الأقسام</a><a href="/admin/site-settings">محتوى الموقع</a><a href="/admin/social-settings">التواصل الاجتماعي</a><a href="/admin/qr-code">QR Code</a><a href="/admin/messages">الرسائل</a></div>
+  <div class="admin-user"><span>مسجل كـ <strong style="color:#fff"><%= username %></strong></span><form method="POST" action="/admin/logout"><button class="link-btn">تسجيل الخروج</button></form></div>
+</div></div>
+<main class="admin-main">
+  <div class="admin-head"><div><h1>أقسام المنتجات</h1><p class="sub">تظهر هذه الأقسام للعميل عند فتح صفحة المنتجات.</p></div></div>
+  <div class="category-workflow">
+    <div><span>1</span><strong>الشركة</strong><small>Carrier أو Midea</small></div>
+    <b>←</b><div><span>2</span><strong>نوع التكييف</strong><small>سبليت أو مركزي</small></div>
+    <b>←</b><div><span>3</span><strong>الحجم</strong><small>مثل 1.5 أو 3 حصان</small></div>
+  </div>
+  <% if (saved) { %><div class="alert alert-ok">تم حفظ القسم.</div><% } %>
+  <div class="category-admin-grid">
+    <section class="category-create-steps">
+      <form method="POST" action="/admin/categories/new" enctype="multipart/form-data" class="settings-card quick-category-form">
+        <div class="quick-step-head"><span>1</span><div><h2>إضافة شركة</h2><p>مثل Carrier أو Midea</p></div></div>
+        <input type="hidden" name="parentId" value="">
+        <div class="field"><label>اسم الشركة بالعربية *</label><input name="name" required placeholder="مثال: كارير"></div>
+        <div class="field"><label>اسم الشركة بالإنجليزية</label><input name="nameEn" dir="ltr" placeholder="Carrier"></div>
+        <div class="field"><label>صورة أو شعار الشركة</label><input type="file" name="image" accept="image/jpeg,image/png,image/webp"></div>
+        <button class="btn btn-primary btn-block" type="submit">إضافة الشركة</button>
+      </form>
+
+      <form method="POST" action="/admin/categories/new" enctype="multipart/form-data" class="settings-card quick-category-form">
+        <div class="quick-step-head"><span>2</span><div><h2>إضافة نوع تكييف</h2><p>مثل سبليت أو مركزي</p></div></div>
+        <div class="field"><label>اختر الشركة *</label><select name="parentId" required><option value="">اختر الشركة...</option><% categories.filter(c => depthOf(c) === 0).forEach((company) => { %><option value="<%= company.id %>"><%= company.name %></option><% }); %></select></div>
+        <div class="field"><label>اسم النوع بالعربية *</label><input name="name" required placeholder="مثال: سبليت"></div>
+        <div class="field"><label>اسم النوع بالإنجليزية</label><input name="nameEn" dir="ltr" placeholder="Split"></div>
+        <div class="field"><label>صورة النوع</label><input type="file" name="image" accept="image/jpeg,image/png,image/webp"></div>
+        <button class="btn btn-primary btn-block" type="submit">إضافة النوع</button>
+      </form>
+
+      <form method="POST" action="/admin/categories/new" enctype="multipart/form-data" class="settings-card quick-category-form" id="sizeCategoryForm">
+        <div class="quick-step-head"><span>3</span><div><h2>إضافة حجم</h2><p>مثل 1.5 أو 2.25 أو 3 حصان</p></div></div>
+        <div class="field"><label>اختر الشركة *</label><select id="sizeCompany" required><option value="">اختر الشركة...</option><% categories.filter(c => depthOf(c) === 0).forEach((company) => { %><option value="<%= company.id %>"><%= company.name %></option><% }); %></select></div>
+        <div class="field"><label>اختر نوع التكييف *</label><select name="parentId" id="sizeType" required><option value="">اختر النوع...</option><% categories.filter(c => depthOf(c) === 1).forEach((type) => { %><option value="<%= type.id %>" data-company-id="<%= type.parentId %>"><%= categoryPath(type) %></option><% }); %></select></div>
+        <div class="field"><label>الحجم *</label><input name="name" required placeholder="مثال: 3 حصان"></div>
+        <div class="field"><label>الحجم بالإنجليزية</label><input name="nameEn" dir="ltr" placeholder="3 HP"></div>
+        <div class="field"><label>صورة اختيارية</label><input type="file" name="image" accept="image/jpeg,image/png,image/webp"></div>
+        <button class="btn btn-primary btn-block" type="submit">إضافة الحجم</button>
+      </form>
+
+    </section>
+    <section class="settings-card">
+      <h2>الأقسام الحالية</h2>
+      <% if (!categories.length) { %><p>لا توجد أقسام بعد.</p><% } %>
+      <div class="category-admin-list">
+        <% categories.forEach((category) => { %>
+          <form method="POST" action="/admin/categories/<%= encodeURIComponent(category.id) %>/edit" enctype="multipart/form-data" class="category-admin-row">
+            <input type="hidden" name="oldName" value="<%= category.name %>">
+            <div class="category-admin-image"><% if (category.image) { %><img src="<%= category.image %>" alt=""><% } else { %><span>لا توجد صورة</span><% } %></div>
+            <div class="field"><label><span class="level-badge level-<%= Math.min(depthOf(category),2) %>"><%= levelName(depthOf(category)) %></span> المسار</label><strong class="category-path"><%= categoryPath(category) %></strong><input name="name" required value="<%= category.name %>"></div>
+            <div class="field"><label>English</label><input name="nameEn" dir="ltr" value="<%= category.nameEn || category.name %>"></div>
+            <div class="field"><label>المكان</label><select name="parentId" <%= depthOf(category) === 0 ? 'disabled' : '' %>><% if (depthOf(category) === 0) { %><option value="">قسم رئيسي</option><% } %><% categories.filter(c => c.id !== category.id && depthOf(c) === depthOf(category) - 1).forEach((parent) => { %><option value="<%= parent.id %>" <%= category.parentId === parent.id ? 'selected' : '' %>><%= categoryPath(parent) %></option><% }); %></select><% if (depthOf(category) === 0) { %><input type="hidden" name="parentId" value=""><% } %></div>
+            <div class="field"><label>تغيير الصورة</label><input type="file" name="image" accept="image/jpeg,image/png,image/webp"><label class="checkbox-row"><input type="checkbox" name="remove_image"> حذف الصورة</label></div>
+            <details class="image-layout-controls">
+              <summary>الحجم والهوامش</summary>
+              <div class="layout-preview"><% if (category.image) { %><img src="<%= category.image %>" alt="معاينة الصورة"><% } else { %><img alt="معاينة الصورة"><% } %></div>
+              <div class="compact-layout-grid">
+                <label>العرض<select name="imageFit"><option value="cover" <%= category.imageFit !== 'contain' ? 'selected' : '' %>>ملء</option><option value="contain" <%= category.imageFit === 'contain' ? 'selected' : '' %>>كاملة</option></select></label>
+                <label class="slider-field">تكبير / تصغير <output></output><input type="range" name="imageSize" min="25" max="200" value="<%= category.imageSize || 100 %>"></label>
+                <label class="slider-field">أعلى / أسفل <output></output><input type="range" name="imageMarginTop" min="-200" max="200" value="<%= (category.imageMarginTop || 0) - (category.imageMarginBottom || 0) %>"></label>
+                <input type="hidden" name="imageMarginBottom" value="0"><input type="hidden" name="imageMarginRight" value="0">
+                <label class="slider-field">يمين / يسار <output></output><input type="range" name="imageMarginLeft" min="-200" max="200" value="<%= (category.imageMarginLeft || 0) - (category.imageMarginRight || 0) %>"></label>
+              </div>
+            </details>
+            <button class="btn btn-navy btn-sm" type="submit">حفظ</button>
+            <button class="btn btn-danger btn-sm" type="submit" formaction="/admin/categories/<%= encodeURIComponent(category.id) %>/delete" name="name" value="<%= category.name %>" onclick="return confirm('حذف هذا القسم؟ سيتم نقل منتجاته إلى غير مصنف.');">حذف</button>
+          </form>
+        <% }); %>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+const sizeCompany = document.getElementById('sizeCompany');
+const sizeType = document.getElementById('sizeType');
+if (sizeCompany && sizeType) {
+  const filterTypes = () => {
+    const companyId = sizeCompany.value;
+    [...sizeType.options].forEach((option, index) => {
+      if (!index) return;
+      const visible = !companyId || option.dataset.companyId === companyId;
+      option.hidden = !visible;
+      option.disabled = !visible;
+    });
+    if (sizeType.selectedOptions[0] && sizeType.selectedOptions[0].disabled) sizeType.value = '';
+  };
+  sizeCompany.addEventListener('change', filterTypes);
+  filterTypes();
+}
+document.querySelectorAll('.image-layout-controls').forEach((controls) => {
+  const form = controls.closest('form');
+  const preview = controls.querySelector('.layout-preview img');
+  const fileInput = form.querySelector('input[type="file"][name="image"]');
+  const field = (name) => form.elements[name];
+  const update = () => {
+    const size = Number(field('imageSize').value);
+    const vertical = Number(field('imageMarginTop').value);
+    const horizontal = Number(field('imageMarginLeft').value);
+    preview.style.objectFit = field('imageFit').value;
+    preview.style.width = size + '%'; preview.style.height = size + '%';
+    preview.style.transform = `translate(calc(-50% + ${horizontal}px), calc(-50% + ${vertical}px))`;
+    controls.querySelectorAll('.slider-field').forEach((wrap) => {
+      const input = wrap.querySelector('input[type="range"]'); const output = wrap.querySelector('output');
+      if (input && output) {
+        if (input.name === 'imageSize') output.textContent = input.value < 85 ? 'صغيرة' : (input.value > 115 ? 'كبيرة' : 'طبيعية');
+        else output.textContent = input.name === 'imageMarginTop' ? '↕' : '↔';
+      }
+    });
+  };
+  controls.querySelectorAll('input[type="range"], select').forEach((input) => input.addEventListener('input', update));
+  if (fileInput) fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) { preview.src = URL.createObjectURL(fileInput.files[0]); preview.onload = () => URL.revokeObjectURL(preview.src); }
+  });
+  update();
+});
+</script>
+</body></html>

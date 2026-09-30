@@ -20,6 +20,10 @@
     </a>
     <div class="admin-tabs">
       <a href="/admin/products" class="active">المنتجات</a>
+      <a href="/admin/categories">الأقسام</a>
+      <a href="/admin/site-settings">محتوى الموقع</a>
+      <a href="/admin/social-settings">التواصل الاجتماعي</a>
+      <a href="/admin/qr-code">QR Code</a>
       <a href="/admin/messages">الرسائل</a>
     </div>
     <div class="admin-user">
@@ -50,14 +54,24 @@
           <input type="text" id="name" name="name" required value="<%= product ? product.name : '' %>" placeholder="مثل: مكييف كاريير 1.5 طن سبليت">
         </div>
 
-        <div class="field">
-          <label for="brand">العلامة</label>
-          <input type="text" id="brand" name="brand" value="<%= product ? (product.brand || '') : '' %>" placeholder="Carrier, Midea…">
-        </div>
-
-        <div class="field">
-          <label for="category">التصنيف</label>
-          <input type="text" id="category" name="category" value="<%= product ? (product.category || 'Air Conditioners') : 'Air Conditioners' %>" placeholder="مكيفات، قطع غيار…">
+        <div class="field full">
+          <label for="categoryId">الحجم *</label>
+          <% const byId = Object.fromEntries(categories.map((category) => [category.id, category]));
+             const depthOf = (category) => { let depth = 0, current = category, guard = 0; while (current && current.parentId && byId[current.parentId] && guard++ < 10) { depth++; current = byId[current.parentId]; } return depth; };
+             const categoryPath = (category) => { const parts = [category.name]; let current = category, guard = 0; while (current.parentId && byId[current.parentId] && guard++ < 10) { current = byId[current.parentId]; parts.unshift(current.name); } return parts.join(' ← '); };
+             const sizes = categories.filter((category) => depthOf(category) === 2);
+             const isSelectedSize = (size) => {
+               if (!product) return false;
+               if (product.categoryId && product.categoryId === size.id) return true;
+               const type = byId[size.parentId];
+               const company = type && byId[type.parentId];
+               return Boolean(company && product.size === size.name && product.category === type.name && (product.brand === company.name || product.brand === company.nameEn));
+             }; %>
+          <select id="categoryId" name="categoryId" required>
+            <option value=""><%= sizes.length ? 'اختر الحجم...' : 'أضف حجمًا من صفحة الأقسام أولًا' %></option>
+            <% sizes.forEach((size) => { %><option value="<%= size.id %>" <%= isSelectedSize(size) ? 'selected' : '' %>><%= categoryPath(size) %></option><% }); %>
+          </select>
+          <p class="help-text">يظهر الحجم فقط بعد إنشاء الشركة ثم النوع ثم الحجم، مثل: Carrier ← سبليت ← 3 حصان. <a href="/admin/categories">إدارة الأقسام</a></p>
         </div>
 
         <div class="field">
@@ -97,7 +111,7 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary"><%= product && product.id ? 'حفظ التغييرات' : 'إضافة منتج' %></button>
+        <button type="submit" class="btn btn-primary" <%= sizes.length ? '' : 'disabled' %>><%= product && product.id ? 'حفظ التغييرات' : 'إضافة منتج' %></button>
         <a href="/admin/products" class="btn btn-ghost">إلغاء</a>
       </div>
     </form>

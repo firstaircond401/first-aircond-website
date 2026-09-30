@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التواصل الاجتماعي | الإدارة</title>
+<link rel="icon" href="/images/logo-firstaircond.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-topbar"><div class="container">
+  <a href="/admin/products" class="brand-mark"><img src="/images/logo-firstaircond.jpeg" alt="">الإدارة</a>
+  <div class="admin-tabs"><a href="/admin/products">المنتجات</a><a href="/admin/categories">الأقسام</a><a href="/admin/site-settings">محتوى الموقع</a><a href="/admin/social-settings" class="active">التواصل الاجتماعي</a><a href="/admin/qr-code">QR Code</a><a href="/admin/messages">الرسائل</a></div>
+  <div class="admin-user"><span>مسجل كـ <strong style="color:#fff"><%= username %></strong></span><form method="POST" action="/admin/logout"><button class="link-btn">تسجيل الخروج</button></form></div>
+</div></div>
+<main class="admin-main social-settings-main">
+  <div class="admin-head"><div><h1>روابط التواصل الاجتماعي</h1><p class="sub">تحكم في روابط التواصل التي تظهر للعملاء في الموقع.</p></div><a href="/" target="_blank" class="btn btn-ghost">معاينة الموقع</a></div>
+  <% if (saved) { %><div class="alert alert-ok">تم حفظ روابط التواصل بنجاح.</div><% } %>
+  <form method="POST" action="/admin/social-settings" class="settings-card social-settings-card">
+    <div class="social-setting-row whatsapp-setting"><div class="social-setting-icon">◉</div><div class="field"><label>رقم واتساب</label><input name="whatsappNumber" inputmode="tel" dir="ltr" value="<%= settings.whatsappNumber %>" placeholder="201001234567"><p class="help-text">اكتب الرقم بصيغة دولية من دون علامة +.</p></div></div>
+    <div class="social-setting-row instagram-setting"><div class="social-setting-icon">IG</div><div class="field"><label>Instagram</label><input name="instagramHandle" dir="ltr" value="<%= settings.instagramHandle %>" placeholder="@username or full URL"><p class="help-text">اسم المستخدم أو الرابط الكامل.</p></div></div>
+    <div class="social-setting-row facebook-setting"><div class="social-setting-icon">f</div><div class="field"><label>Facebook</label><input name="facebookHandle" dir="ltr" value="<%= settings.facebookHandle %>" placeholder="username or full URL"><p class="help-text">اسم الصفحة أو الرابط الكامل.</p></div></div>
+    <div class="form-actions"><button class="btn btn-primary" type="submit">حفظ روابط التواصل</button></div>
+  </form>
+</main>
+</body></html>

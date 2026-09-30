@@ -7,7 +7,7 @@
 <meta name="description" content="اطلب عرض سعر أو اسأل سؤالاً. اتصل أو أرسل رسالة واتساب وسنعود إليك في نفس اليوم.">
 <link rel="icon" href="./images/logo-firstaircond.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -31,7 +31,7 @@
   </div>
 </header>
 
-<section style="padding-bottom: 0;">
+<section class="page-hero">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">تواصل معنا</span>
@@ -119,6 +119,7 @@
     </div>
   </div>
 </footer>
+<a class="floating-whatsapp" href="https://wa.me/201000000000" target="_blank" rel="noopener" aria-label="تواصل معنا عبر واتساب">✆</a>
 
 <script src="/js/main.js"></script>
 <script>
@@ -132,7 +133,7 @@
     const data = Object.fromEntries(new FormData(form).entries());
 
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
+    submitBtn.textContent = 'جاري الإرسال…';
     msgBox.className = 'form-msg';
 
     try {
@@ -142,8 +143,8 @@
         body: JSON.stringify(data),
       });
       const result = await res.json();
-      if (!res.ok) throw new Error(result.error || 'Something went wrong.');
-      msgBox.textContent = "Thanks — we've got your message and will get back to you shortly.";
+      if (!res.ok) throw new Error(result.error || 'تعذر إرسال الرسالة. حاول مرة أخرى.');
+      msgBox.textContent = 'شكرًا لك — وصلتنا رسالتك وسنتواصل معك قريبًا.';
       msgBox.className = 'form-msg ok';
       form.reset();
     } catch (err) {
@@ -151,7 +152,7 @@
       msgBox.className = 'form-msg err';
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Message';
+      submitBtn.textContent = 'إرسال الرسالة';
     }
   });
 </script>

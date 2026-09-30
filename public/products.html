@@ -7,7 +7,7 @@
 <meta name="description" content="تصفح مكيفات الهواء من كاريير وميديا بأسعار محدثة. قم بالفلترة أو البحث حسب الاسم.">
 <link rel="icon" href="./images/logo-firstaircond.jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -31,10 +31,10 @@
   </div>
 </header>
 
-<section style="padding-bottom: 0;">
+<section class="page-hero">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">الكatalog</span>
+      <span class="eyebrow">الكتالوج</span>
       <h1 style="font-size: clamp(2rem, 4vw, 2.8rem);">مكيفات الهواء وقطع الغيار</h1>
       <p>يتم تحديث الأسعار مباشرة من فريقنا، لذلك ما تراه هنا هو السعر الذي ستدفعه. يتم تحديد التوصيل والتركيب بشكل منفصل بحسب موقعك.</p>
     </div>
@@ -43,6 +43,14 @@
 
 <section style="padding-top: 24px;">
   <div class="container">
+    <div class="category-showcase" id="categoryShowcase">
+      <p>جاري تحميل الأقسام…</p>
+    </div>
+    <div class="category-level-head" id="categoryLevelHead" hidden>
+      <button type="button" class="btn btn-ghost btn-sm" id="backToCategories">رجوع للمستوى السابق</button>
+      <h2 id="categoryLevelTitle"></h2>
+    </div>
+    <div id="productResults" hidden>
     <div class="toolbar">
       <div class="filters" id="categoryFilters">
         <button class="chip active" data-category="all">الكل</button>
@@ -54,6 +62,7 @@
     </div>
     <div class="product-grid" id="productGrid">
       <p>جاري تحميل المنتجات…</p>
+    </div>
     </div>
   </div>
 </section>
@@ -84,6 +93,7 @@
     </div>
   </div>
 </footer>
+<a class="floating-whatsapp" href="https://wa.me/201000000000" target="_blank" rel="noopener" aria-label="تواصل معنا عبر واتساب">✆</a>
 
 <script src="/js/main.js"></script>
 <script src="/js/products.js"></script>

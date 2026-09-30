@@ -20,6 +20,10 @@
     </a>
     <div class="admin-tabs">
       <a href="/admin/products" class="active">المنتجات</a>
+      <a href="/admin/categories">الأقسام</a>
+      <a href="/admin/site-settings">محتوى الموقع</a>
+      <a href="/admin/social-settings">التواصل الاجتماعي</a>
+      <a href="/admin/qr-code">QR Code</a>
       <a href="/admin/messages">الرسائل <% if (unreadCount > 0) { %><span class="badge"><%= unreadCount %></span><% } %></a>
     </div>
     <div class="admin-user">
@@ -57,6 +61,7 @@
             <th>الاسم</th>
             <th>العلامة</th>
             <th>التصنيف</th>
+            <th>الحجم</th>
             <th>السعر</th>
             <th>التوفر</th>
             <th></th>
@@ -75,6 +80,7 @@
               <td><%= p.name %></td>
               <td><%= p.brand || '—' %></td>
               <td><%= p.category %></td>
+              <td><%= p.size || '—' %></td>
               <td><%= Number(p.price).toLocaleString('ar-EG') %> ج.م</td>
               <td><span class="stock-badge <%= p.in_stock ? 'in' : 'out' %>"><%= p.in_stock ? 'متوفر' : 'غير متوفر' %></span></td>
               <td>

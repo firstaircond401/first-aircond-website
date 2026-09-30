@@ -9,3 +9,4 @@ db/*.db-shm
 db/*.db-wal
 
 .vercel
+.local-data.json

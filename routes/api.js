@@ -3,8 +3,12 @@ const db = require('../db/database');
 
 const router = express.Router();
 
+router.get('/site-settings', async (req, res, next) => {
+  try { res.json(await db.getSiteSettings()); } catch (error) { next(error); }
+});
+
 router.get('/products', async (req, res, next) => {
-  try { res.json(await db.listProducts({ category: req.query.category, search: req.query.search })); } catch (error) { next(error); }
+  try { res.json(await db.listProducts({ category: req.query.category, brand: req.query.brand, size: req.query.size, search: req.query.search })); } catch (error) { next(error); }
 });
 
 router.get('/products/:id', async (req, res, next) => {
@@ -19,11 +23,19 @@ router.get('/categories', async (req, res, next) => {
   try { res.json(await db.listCategories()); } catch (error) { next(error); }
 });
 
+router.get('/category-images/:id', async (req, res, next) => {
+  try {
+    const image = await db.getCategoryImage(req.params.id);
+    if (!image || !image.data) return res.sendStatus(404);
+    res.type(image.mime).send(image.data);
+  } catch (error) { next(error); }
+});
+
 router.get('/images/:id', async (req, res, next) => {
   try {
     const product = await db.getProduct(req.params.id, true);
     if (!product || !product.imageData) return res.sendStatus(404);
-    res.type(product.imageMime).send(product.imageData.buffer);
+    res.type(product.imageMime).send(Buffer.isBuffer(product.imageData) ? product.imageData : product.imageData.buffer);
   } catch (error) { next(error); }
 });
 

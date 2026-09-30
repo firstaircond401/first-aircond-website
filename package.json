@@ -15,8 +15,9 @@
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "express-session": "^1.18.0",
+    "mongodb": "^6.18.0",
     "multer": "^2.0.1",
-    "mongodb": "^6.18.0"
+    "qrcode": "^1.5.4"
   },
   "engines": {
     "node": ">=18.0.0"

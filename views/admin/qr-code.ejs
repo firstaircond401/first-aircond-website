@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code | الإدارة</title>
+<link rel="icon" href="/images/logo-firstaircond.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-topbar"><div class="container">
+  <a href="/admin/products" class="brand-mark"><img src="/images/logo-firstaircond.jpeg" alt="">الإدارة</a>
+  <div class="admin-tabs"><a href="/admin/products">المنتجات</a><a href="/admin/categories">الأقسام</a><a href="/admin/site-settings">محتوى الموقع</a><a href="/admin/social-settings">التواصل الاجتماعي</a><a href="/admin/qr-code" class="active">QR Code</a><a href="/admin/messages">الرسائل</a></div>
+  <div class="admin-user"><span>مسجل كـ <strong style="color:#fff"><%= username %></strong></span><form method="POST" action="/admin/logout"><button class="link-btn">تسجيل الخروج</button></form></div>
+</div></div>
+<main class="admin-main qr-admin-main">
+  <div class="admin-head"><div><h1>إنشاء QR Code للموقع</h1><p class="sub">أنشئ رمزًا جاهزًا للطباعة يفتح موقعك مباشرة عند مسحه بالموبايل.</p></div></div>
+  <div class="qr-admin-grid">
+    <form method="GET" action="/admin/qr-code" class="settings-card qr-controls">
+      <h2>إعدادات الرمز</h2>
+      <div class="field"><label>رابط الموقع الثابت</label><div class="fixed-qr-url" dir="ltr"><%= url %></div><p class="help-text">تم تثبيت الرابط على الصفحة الرئيسية لمنع أخطاء 404.</p></div>
+      <div class="field slider-field"><label for="qrSize">حجم الصورة <output id="sizeOutput"><%= size %>px</output></label><input type="range" id="qrSize" name="size" min="160" max="1000" step="20" value="<%= size %>"></div>
+      <div class="qr-color-grid">
+        <div class="field"><label for="qrDark">لون الرمز</label><input type="color" id="qrDark" name="dark" value="<%= dark %>"></div>
+        <div class="field"><label for="qrLight">لون الخلفية</label><input type="color" id="qrLight" name="light" value="<%= light %>"></div>
+      </div>
+      <button class="btn btn-navy btn-block" type="submit">تحديث المعاينة</button>
+    </form>
+    <section class="settings-card qr-preview-card">
+      <div class="qr-preview"><img src="<%= qrDataUrl %>" alt="QR Code لموقع First Air Cond"></div>
+      <strong>firstaircond.shop</strong>
+      <p>جرّب مسح الرمز بكاميرا الهاتف قبل الطباعة.</p>
+      <a class="btn btn-primary btn-block" href="/admin/qr-code/download?size=<%= size %>&dark=<%= encodeURIComponent(dark) %>&light=<%= encodeURIComponent(light) %>">تحميل PNG جديد</a>
+    </section>
+  </div>
+</main>
+<script>
+const sizeInput = document.getElementById('qrSize');
+const sizeOutput = document.getElementById('sizeOutput');
+sizeInput.addEventListener('input', () => { sizeOutput.textContent = sizeInput.value + 'px'; });
+</script>
+</body></html>
